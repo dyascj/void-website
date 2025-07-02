@@ -22,35 +22,25 @@ import { CSPostHogProvider } from '../components/providers'
 
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-
-    const bg1 = 'rgba(255, 255, 255, 1)';
-    const bg2 = 'rgba(228, 229, 231, 0.85)';
-
-    return (<>
-
-        <html lang="en">
+    return (
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <meta
                     name="viewport"
                     content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
                 />
-
             </head>
-
-            {/* <body className='text-black bg-gray-100 ' style={{ background: `url('/noise.png')` }}> */}
             <CSPostHogProvider>
-                <body className='text-black bg-gray-100' style={{ background: `linear-gradient(90deg, ${bg2} 0%, ${bg1} 25%, ${bg1} 75%, ${bg2} 100%)` }}>
-                    <div className='overflow-hidden rounded-sm'>
-                        {/* in dark mode, text-black is not the default */}
-                        <GlassProvider>
-                            <Header />
+                <body className='font-apple bg-white dark:bg-black text-void-text-primary-light dark:text-void-text-primary-dark transition-colors duration-300'>
+                    <GlassProvider>
+                        <Header />
+                        <main className="min-h-screen">
                             {children}
-                            <Footer />
-                        </GlassProvider>
-                    </div>
+                        </main>
+                        <Footer />
+                    </GlassProvider>
                 </body>
             </CSPostHogProvider>
         </html>
-    </>
     );
 }

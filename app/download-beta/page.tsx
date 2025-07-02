@@ -6,13 +6,6 @@ import './twinkle.css'
 import Image from 'next/image';
 import SparkleOverlay from './SparkleOverlay';
 
-
-
-
-
-
-
-
 // Add this top-level cache (outside the function)
 let cachedVersion: string | null = null;
 let lastChecked: number = 0; // epoch ms
@@ -64,12 +57,7 @@ async function getLatestReleaseVersion(): Promise<string> {
     return cachedVersion ?? '1.99.30023';
 }
 
-
-
-
-
-
-// Floating Element
+// Floating Element (keeping the original animated logo)
 const FloatingElement = () => (
     <div className='relative flex flex-col items-center'>
         <div className='animate-float'>
@@ -92,18 +80,19 @@ const FloatingElement = () => (
                     <feGaussianBlur in='SourceGraphic' stdDeviation='2.25' />
                 </filter>
             </defs>
-            <ellipse cx='18' cy='4.5' rx='18' ry='4.5' fill='black' filter='url(#blur)' />
+            <ellipse cx='18' cy='4.5' rx='18' ry='4.5' fill='currentColor' filter='url(#blur)' />
         </svg>
     </div>
 );
 
-// Download button
+// Modern Download button with preserved sparkle effects
 const DownloadButton = ({ url, children, className }: { url: string; children: React.ReactNode; className?: string }) => (
     <a
         draggable={false}
         tabIndex={0}
-        className={`group gap-2 flex justify-center items-center drop-shadow-xl p-2 py-3 rounded-lg btn px-8 opacity-90 whitespace-nowrap border-0 
-        bg-black/95 hover:bg-black/90 hover:brightness-105 active:brightness-105 active:scale-95 duration-200 outline-none cursor-pointer ${className}`}
+        className={`group gap-2 flex justify-center items-center drop-shadow-xl p-3 py-4 rounded-xl font-semibold 
+        bg-void-accent-blue hover:bg-void-accent-blue-hover text-white
+        hover:scale-105 active:scale-95 transition-all duration-200 outline-none cursor-pointer ${className}`}
         href={url}
     >
         {children}
@@ -127,81 +116,105 @@ function DownloadBetaClient({ releaseVersion }: { releaseVersion: string }) {
     };
 
     return (
-        <main className='min-h-screen relative max-w-[1400px] mx-auto px-4 lg:px-12'>
-            <section className='h-fit py-16 mt-4 sm:mt-32 flex flex-col md:flex-row items-center justify-center gap-x-8 rounded-xl text-black shadow-xl bg-gray-100'>
-                {/* left */}
-                <div className='text-balance max-sm:text-base text-xl max-w-[600px] space-y-5'>
-                    <h2 className='mx-auto text-center text-3xl lg:text-4xl tracking-tight font-black'>
-                        <div className='flex justify-center items-center '>Download Void.</div>
-                    </h2>
+        <main className='min-h-screen bg-white dark:bg-black text-void-text-primary-light dark:text-void-text-primary-dark'>
+            <div className='max-w-7xl mx-auto px-6'>
+                <section className='pt-16 pb-8'>
+                    <div className='bg-white dark:bg-void-bg-secondary-dark rounded-3xl shadow-2xl border border-void-border-light dark:border-void-border-dark overflow-hidden'>
+                        <div className='flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12'>
+                            {/* Left content */}
+                            <div className='p-8 lg:p-12 space-y-8'>
+                                <div className='text-center lg:text-left'>
+                                    <h1 className='text-4xl lg:text-5xl font-bold text-void-text-primary-light dark:text-void-text-primary-dark mb-6'>
+                                        Download Void.
+                                    </h1>
+                                    <p className='text-xl text-void-text-secondary-light dark:text-void-text-secondary-dark max-w-lg'>
+                                        Try the beta edition of Void, and help us improve by providing{' '}
+                                        <a 
+                                            href={discordLink} 
+                                            target='_blank' 
+                                            rel='noreferrer noopener nofollow' 
+                                            className='text-void-accent-blue hover:text-void-accent-blue-hover underline transition-colors'
+                                        >
+                                            feedback
+                                        </a>
+                                        .
+                                    </p>
+                                </div>
 
-                    <div className='mx-auto pb-4 text-center px-4 text-balance max-w-[400px]'>
-                        Try the beta edition of Void, and help us improve by providing{' '}
-                        <a href={discordLink} target='_blank' rel='noreferrer noopener nofollow' className='underline'>
-                            feedback
-                        </a>
-                        .
+                                <div className='space-y-4 max-w-lg'>
+                                    {/* Mac Downloads */}
+                                    <div className='flex items-center gap-4'>
+                                        <DownloadButton url={downloadLinks.mac.appleSilicon} className='relative flex-1'>
+                                            <SparkleOverlay number={25} seed={42} />
+                                            <span className='flex items-center gap-3'>
+                                                <span className='text-lg font-semibold'>Download for Mac</span>
+                                                <FaApple className='w-6 h-6' />
+                                            </span>
+                                        </DownloadButton>
+                                        <DownloadButton url={downloadLinks.mac.intel} className='relative px-6'>
+                                            <SparkleOverlay number={15} seed={501} />
+                                            <span className='flex items-center gap-2'>
+                                                <span className='text-lg font-semibold'>Intel</span>
+                                                <FaApple className='w-5 h-5' />
+                                            </span>
+                                        </DownloadButton>
+                                    </div>
+
+                                    {/* Windows Downloads */}
+                                    <div className='flex items-center gap-4'>
+                                        <DownloadButton url={downloadLinks.windows.x64} className='relative flex-1'>
+                                            <SparkleOverlay number={25} seed={43} />
+                                            <span className='flex items-center gap-3'>
+                                                <span className='text-lg font-semibold'>Download for Windows</span>
+                                                <FaWindows className='w-6 h-6' />
+                                            </span>
+                                        </DownloadButton>
+                                        <DownloadButton url={downloadLinks.windows.arm} className='relative px-6'>
+                                            <SparkleOverlay number={15} seed={100} />
+                                            <span className='flex items-center gap-2'>
+                                                <span className='text-lg font-semibold'>ARM</span>
+                                                <FaWindows className='w-5 h-5' />
+                                            </span>
+                                        </DownloadButton>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right - Animated Logo */}
+                            <div className='flex justify-center items-center text-void-text-secondary-light dark:text-void-text-secondary-dark p-8 lg:p-12'>
+                                <FloatingElement />
+                            </div>
+                        </div>
                     </div>
 
-                    <div className='px-4 max-sm:scale-75 max-[450px]:scale-50 space-y-2'>
-                        <div className='flex items-center gap-x-2'>
-                            <DownloadButton url={downloadLinks.mac.appleSilicon} className='relative w-full'>
-                                <SparkleOverlay number={25} seed={42} />
-                                <span className='flex items-center gap-2'>
-                                    <span className='text-white text-xl font-medium'>Download for Mac</span>
-                                    <FaApple className='fill-white min-w-7 min-h-7' />
-                                </span>
-                            </DownloadButton>
-                            <DownloadButton url={downloadLinks.mac.intel} className='relative flex-grow-0 flex-shrink-0 w-40'>
-                                <SparkleOverlay number={15} seed={501} />
-                                <span className='flex items-center gap-2'>
-                                    <span className='text-white text-xl font-medium'>Intel</span>
-                                    <FaApple className='fill-white min-w-7 min-h-7' />
-                                </span>
-                            </DownloadButton>
-                        </div>
-
-                        <div className='flex items-center gap-x-2'>
-                            <DownloadButton url={downloadLinks.windows.x64} className='relative w-full'>
-                                <SparkleOverlay number={25} seed={43} />
-                                <span className='flex items-center gap-2'>
-                                    <span className='text-white text-xl font-medium'>Download for Windows</span>
-                                    <FaWindows className='fill-white min-w-7 min-h-7' />
-                                </span>
-                            </DownloadButton>
-                            <DownloadButton url={downloadLinks.windows.arm} className='relative flex-grow-0 flex-shrink-0 w-40'>
-                                <SparkleOverlay number={15} seed={100} />
-                                <span className='flex items-center gap-2'>
-                                    <span className='text-white text-xl font-medium'>ARM</span>
-                                    <FaWindows className='fill-white min-w-7 min-h-7' />
-                                </span>
-                            </DownloadButton>
-                        </div>
+                    {/* Additional Info */}
+                    <div className='text-center mt-8 space-y-4 text-void-text-secondary-light dark:text-void-text-secondary-dark'>
+                        <p>
+                            For Linux users, download Void{' '}
+                            <a 
+                                href={binariesLink} 
+                                target='_blank' 
+                                rel='noreferrer noopener nofollow' 
+                                className='text-void-accent-blue hover:text-void-accent-blue-hover underline transition-colors'
+                            >
+                                here
+                            </a>
+                            .
+                        </p>
+                        <p>
+                            Alternatively, download Void from the source on{' '}
+                            <a 
+                                href={releaseLink} 
+                                target='_blank' 
+                                rel='noreferrer noopener nofollow' 
+                                className='text-void-accent-blue hover:text-void-accent-blue-hover underline transition-colors'
+                            >
+                                GitHub
+                            </a>
+                            .
+                        </p>
                     </div>
-                </div>
-
-                {/* right */}
-                <div className='min-w-60 min-h-60 flex justify-center items-center'>
-                    <FloatingElement />
-                </div>
-            </section>
-
-            {/* desc */}
-            <div className='mx-auto text-center px-4 text-balance opacity-25 pt-60 pb-40'>
-                <div className='my-1'>
-                    For Linux users, download Void{' '}
-                    <a href={binariesLink} target='_blank' rel='noreferrer noopener nofollow' className='underline'>
-                        here
-                    </a>
-                    .
-                </div>
-                <div className='my-1'>
-                    Alternatively, download Void from the source on{' '}
-                    <a href={releaseLink} target='_blank' rel='noreferrer noopener nofollow' className='underline'>
-                        GitHub
-                    </a>
-                    .
-                </div>
+                </section>
             </div>
         </main>
     );

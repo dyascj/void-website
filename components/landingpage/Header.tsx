@@ -1,74 +1,96 @@
 /* eslint-disable @next/next/no-img-element */
+'use client'
+
 import Link from "next/link"
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { FaDiscord } from "react-icons/fa"
-import VoidAnimatedText from "./VoidAnimatedText"
 import { IoLogoGithub } from "react-icons/io"
-import {   discordLink, waitlistLink, githubLink, downloadLink } from "../links"
-import Image from "next/image"
-import { baseUrl } from "@/app/sitemap"
+import { HiSun, HiMoon } from "react-icons/hi"
+import { discordLink, githubLink, downloadLink } from "../links"
+
+const ThemeToggle = () => {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div className="w-9 h-9" />
+  }
+
+  return (
+    <button
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="relative w-9 h-9 rounded-full bg-void-bg-secondary-light dark:bg-void-bg-secondary-dark hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 flex items-center justify-center group"
+      aria-label="Toggle theme"
+    >
+      <HiSun className="w-4 h-4 text-amber-500 transition-all duration-200 scale-100 rotate-0 dark:scale-0 dark:rotate-90 absolute" />
+      <HiMoon className="w-4 h-4 text-slate-600 dark:text-slate-300 transition-all duration-200 scale-0 rotate-90 dark:scale-100 dark:rotate-0 absolute" />
+    </button>
+  )
+}
 
 export const Header = () => {
-
-    return <div className='top-0 left-0 right-0 z-10 py-6 mx-auto'>
-        <div className='relative max-w-[1400px] mx-auto px-4 lg:px-12 '>
-
-            {/* header */}
-            <div className='h-12 py-2 px-4 max-w-[1400px] mx-auto flex items-center justify-start bg-gray-50 backdrop-blur-md shadow-md rounded-lg overflow-hidden gap-3'>
-
-                <Link draggable={false} href='/' className='group pr-2'>
-                    <h2 className="flex items-center gap-2 font-extrabold">
-                        <img className='group-hover:brightness-[2] duration-200' src={`${process.env.NEXT_PUBLIC_LOGO_URL!}`} alt='Void Logo' height={32} width={32} />
-                        <div className="pb-1 text-transparent tracking-tighter bg-clip-text bg-gradient-to-tl from-black to-gray-500 text-3xl whitespace-nowrap group-hover:brightness-150 duration-200">
+    return (
+        <header className='sticky top-0 z-50 w-full bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-void-border-light dark:border-void-border-dark'>
+            <div className='max-w-7xl mx-auto px-6 h-16'>
+                <div className='flex items-center justify-between h-full'>
+                    {/* Logo */}
+                    <Link href='/' className='group flex items-center gap-3 hover:opacity-80 transition-opacity duration-200'>
+                        <img 
+                            className='w-8 h-8 group-hover:scale-105 transition-transform duration-200' 
+                            src={`${process.env.NEXT_PUBLIC_LOGO_URL!}`} 
+                            alt='Void Logo' 
+                        />
+                        <div className="text-2xl font-semibold tracking-tight text-void-text-primary-light dark:text-void-text-primary-dark">
                             Void
                         </div>
-                    </h2>
-                </Link>
+                    </Link>
 
-
-                <Link draggable={false} href={downloadLink} className='group py-1 px-2 rounded-md overflow-hidden hover:bg-gray-100 duration-100'>
-                    <div className='flex items-center justify-center duration-200 gap-1'>
-                        <span className='text-lg whitespace-nowrap text-black max-sm:text-sm'>
+                    {/* Navigation */}
+                    <nav className='hidden md:flex items-center gap-8'>
+                        <Link 
+                            href={downloadLink} 
+                            className='text-void-text-secondary-light dark:text-void-text-secondary-dark hover:text-void-text-primary-light dark:hover:text-void-text-primary-dark transition-colors duration-200 font-medium'
+                        >
                             Download
-                        </span>
-                    </div>
-                </Link>
-
-                {/* <Link draggable={false} href={waitlistLink} className='group py-1 px-2 rounded-md overflow-hidden hover:bg-gray-100 duration-100'>
-                    <div className='flex items-center justify-center duration-200 gap-1'>
-                        <span className='text-lg whitespace-nowrap text-black max-sm:text-sm'>
-                            Waitlist
-                        </span>
-                    </div>
-                </Link> */}
-
-
-
-                <Link draggable={false} href={githubLink} className='group py-1 px-2 rounded-md overflow-hidden hover:bg-gray-100 duration-100'>
-                    <div className='flex items-center justify-center duration-200 gap-1'>
-                        <span className='text-lg whitespace-nowrap text-black max-sm:text-sm'>
+                        </Link>
+                        <Link 
+                            href={githubLink} 
+                            className='text-void-text-secondary-light dark:text-void-text-secondary-dark hover:text-void-text-primary-light dark:hover:text-void-text-primary-dark transition-colors duration-200 font-medium'
+                        >
                             Contribute
-                        </span>
-                    </div>
-                </Link>
-
-
-                <a draggable={false} href={discordLink} target='_blank' rel="noreferrer noopener nofollow" className='group py-1 px-2 rounded-md overflow-hidden hover:bg-gray-100 duration-100 ml-auto max-[350px]:hidden'>
-                    <div className='flex items-center justify-center duration-200 gap-1'>
-                        <span className='text-lg whitespace-nowrap text-black max-sm:text-sm'>
+                        </Link>
+                        <a 
+                            href={discordLink} 
+                            target='_blank' 
+                            rel="noreferrer noopener nofollow" 
+                            className='text-void-text-secondary-light dark:text-void-text-secondary-dark hover:text-void-text-primary-light dark:hover:text-void-text-primary-dark transition-colors duration-200 font-medium'
+                        >
                             Discord
-                        </span>
-                    </div>
-                </a>
-                <a draggable={false} href={githubLink} target='_blank' rel="noreferrer noopener nofollow" className='group py-1 px-2 rounded-md overflow-hidden hover:bg-gray-100 duration-100 max-sm:hidden'>
-                    <div className='flex items-center justify-center duration-200 gap-1'>
-                        <span className='text-lg whitespace-nowrap text-black max-sm:text-sm'>
-                            GitHub
-                        </span>
-                    </div>
-                </a>
-            </div>
+                        </a>
+                    </nav>
 
-        </div>
-    </div>
+                    {/* Right side */}
+                    <div className="flex items-center gap-4">
+                        <ThemeToggle />
+                        
+                        {/* Mobile menu or CTA */}
+                        <div className="flex md:hidden items-center gap-2">
+                            <a href={githubLink} target='_blank' rel="noreferrer noopener nofollow">
+                                <IoLogoGithub className='w-5 h-5 text-void-text-secondary-light dark:text-void-text-secondary-dark hover:text-void-text-primary-light dark:hover:text-void-text-primary-dark transition-colors duration-200' />
+                            </a>
+                            <a href={discordLink} target='_blank' rel="noreferrer noopener nofollow">
+                                <FaDiscord className='w-5 h-5 text-void-text-secondary-light dark:text-void-text-secondary-dark hover:text-void-text-primary-light dark:hover:text-void-text-primary-dark transition-colors duration-200' />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    )
 }
 

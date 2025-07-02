@@ -36,7 +36,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className='min-h-screen'>
+    <>
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -59,6 +59,6 @@ export default function Home() {
         }}
       />
       <LandingPage />
-    </main>
+    </>
   );
 }

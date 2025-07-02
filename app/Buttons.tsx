@@ -1,36 +1,39 @@
-import { TfiDownload } from "react-icons/tfi"
+'use client'
+
 import { FiDownload } from "react-icons/fi"
 import { IoLogoGithub } from "react-icons/io"
-
 import posthog from "posthog-js"
-import { waitlistLink, githubStarLink, downloadLink } from "@/components/links"
-import { FaDiscord } from "react-icons/fa"
+import { githubStarLink, downloadLink } from "@/components/links"
 
 export const StarOnGithubButton = ({ label = undefined, posthogLabel }: { label?: string, posthogLabel?: string }) => {
-    // <div className="shadow hover:shadow-lg bg-white w-20 h-20 duration-[.5s] ease-out active:scale-90"></div>
-    return <a
-        href={githubStarLink}
-        draggable={false}
-        tabIndex={0} // part of screen reader tab index
-        className="max-sm:w-[60vw] group gap-2 flex justify-center items-center drop-shadow-xl p-2 py-3 rounded-lg btn px-8 opacity-90 whitespace-nowrap border-0 bg-gray-600 hover:brightness-105 active:brightness-105 active:scale-95 duration-200 border-none outline-none"
-        onClick={() => posthog.capture('ButtonContribute', { posthogLabel })}
-    >
-        <span className='text-white text-xl font-medium'>{label ? label : `GitHub`}</span>
-        <IoLogoGithub className='fill-white min-w-7 min-h-7 max-[320px]:hidden' />
-    </a>
+    return (
+        <a
+            href={githubStarLink}
+            target="_blank"
+            rel="noreferrer noopener nofollow"
+            draggable={false}
+            tabIndex={0}
+            className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-void-bg-secondary-dark text-void-text-primary-light dark:text-void-text-primary-dark border border-void-border-light dark:border-void-border-dark rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-600 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md"
+            onClick={() => posthog.capture('ButtonContribute', { posthogLabel })}
+        >
+            <IoLogoGithub className='w-5 h-5' />
+            <span>{label ? label : `Star on GitHub`}</span>
+        </a>
+    )
 }
 
-
 export const DownloadButton = ({ posthogLabel }: { posthogLabel?: string }) => {
-    return <a // <a> tag instead of Link so the page reloads and scrolls to top
-        href={downloadLink}
-        draggable={false}
-        tabIndex={0} // part of screen reader tab index
-        className="max-sm:w-[60vw] group gap-2 flex items-center justify-center drop-shadow-xl p-2 py-3 rounded-lg btn px-8 opacity-90 whitespace-nowrap border-0 bg-blue-600 hover:brightness-105 active:brightness-105 active:scale-95 duration-200 border-none outline-none"
-        onClick={() => posthog.capture('ButtonGetAccess', { posthogLabel })}
-    >
-        <span className='text-white text-xl font-medium'>Download Beta</span>
-        <FiDownload className='stroke-white min-w-6 min-h-6 max-[320px]:hidden' />
-    </a>
+    return (
+        <a
+            href={downloadLink}
+            draggable={false}
+            tabIndex={0}
+            className="inline-flex items-center gap-3 px-6 py-3 bg-void-accent-blue hover:bg-void-accent-blue-hover text-white rounded-xl font-semibold active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
+            onClick={() => posthog.capture('ButtonGetAccess', { posthogLabel })}
+        >
+            <span>Download Beta</span>
+            <FiDownload className='w-5 h-5' />
+        </a>
+    )
 }
 

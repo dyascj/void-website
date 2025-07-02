@@ -171,20 +171,20 @@ const isFutureDate = (dateStr?: string) => {
 const ChangelogEntry = ({ name, date, version, changes, className }: ChangelogEntry) => {
   return (
     <div className={`md:grid md:grid-cols-[170px_1fr] gap-4 md:gap-8 transition-all duration-300 ${className}`}>
-      <div className="text-gray-500 md:text-right md:pr-8 pt-0.5 md:border-r border-gray-200 mb-2 md:mb-0">
+      <div className="text-void-text-secondary-light dark:text-void-text-secondary-dark md:text-right md:pr-8 pt-0.5 md:border-r border-void-border-light dark:border-void-border-dark mb-2 md:mb-0">
         {date}
       </div>
       <div className="relative">
         <div className="flex flex-col gap-2 mb-4">
           <div className="flex items-center gap-4">
-            <h2 className="text-xl font-semibold">{name}</h2>
+            <h2 className="text-xl font-semibold text-void-text-primary-light dark:text-void-text-primary-dark">{name}</h2>
           </div>
-          {!!version && <div className="text-gray-500 text-sm ">
+          {!!version && <div className="text-void-text-secondary-light dark:text-void-text-secondary-dark text-sm ">
             {version}
           </div>}
         </div>
 
-        <ul className="space-y-3 text-gray-600 text-sm">
+        <ul className="space-y-3 text-void-text-secondary-light dark:text-void-text-secondary-dark text-sm">
           {changes.map((change, index) => {
             return (<li key={index} className={`list-disc list-outside ml-5 break-words`}>
               {change}
@@ -207,10 +207,10 @@ const Changelog = () => {
   ))
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-white dark:bg-black">
       <div className="max-w-5xl mx-auto px-4 md:px-8 py-20 pb-32">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Changelog</h1>
-        <p className="text-lg md:text-lg text-gray-600 mb-8">All major updates and releases.</p>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-void-text-primary-light dark:text-void-text-primary-dark">Changelog</h1>
+        <p className="text-lg md:text-lg text-void-text-secondary-light dark:text-void-text-secondary-dark mb-8">All major updates and releases.</p>
         <div className="space-y-16">
           {changes}
         </div>

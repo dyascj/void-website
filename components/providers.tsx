@@ -2,13 +2,14 @@
 
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
+import { ThemeProvider } from 'next-themes'
 
 if (typeof window !== 'undefined') {
     if (process.env.NODE_ENV !== 'development') {
 
         posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
             api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST!,
-            person_profiles: 'always', // or 'always' to create profiles for anonymous users as well
+            person_profiles: 'identified_only',
             session_recording: {},
             ip: true,
         })
@@ -16,5 +17,14 @@ if (typeof window !== 'undefined') {
     }
 }
 export function CSPostHogProvider({ children }) {
-    return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+    return <PostHogProvider client={posthog}>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={true}
+            disableTransitionOnChange={false}
+        >
+            {children}
+        </ThemeProvider>
+    </PostHogProvider>
 }
