@@ -20,7 +20,7 @@ export function CSPostHogProvider({ children }) {
     return <PostHogProvider client={posthog}>
         <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="system"
             enableSystem={true}
             disableTransitionOnChange={false}
         >
